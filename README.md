@@ -1,16 +1,15 @@
-# A*
+# AStar
 
-Projet réalisé dans le cadre de ma formation à l'UQAM.
-Cours INF4230 - Intelligence Artificielle
+Algorithme A*. Calcul efficace de différents chemins
 
-## Installer
-
+##Tout d'abord l'installation : 
 ```
 javac TP1.java
 ```
 
-## Lancer
+##Pour le lancer ensuite :
+```
+java -Xmx2g -cp . TP1
+```
 
-```
-java -Xmx2g -cp . TP1 
-```
+:ambulance:
