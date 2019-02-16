@@ -41,7 +41,7 @@ public class Etat implements Comparable<Etat>
     protected double          h;
 
     
-    public Etat(Urgence urgence){
+    public Etat(Urgence urgence) {
         this.urgence = urgence;
     }
 
@@ -101,7 +101,7 @@ public class Etat implements Comparable<Etat>
     public int compareTo(Etat o) {
         int c;
         c = this.emplacementAmbulance.compareTo(o.emplacementAmbulance);
-        if(c!=0) return c;
+        if(c != 0) return c;
 
         if(patientCharge == o.patientCharge)
         	c=0;
