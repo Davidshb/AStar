@@ -6,13 +6,14 @@
  * 
  */
 
-/** Contient les éléments pertinent à propos d'un successeur (une transition
- *  dans le graphe) : l'état suivant, le cout de l'action et l'action.
+/**
+ * Contient les éléments pertinent à propos d'un successeur (une transition dans
+ * le graphe) : l'état suivant, le cout de l'action et l'action.
  */
 
 public class Successeur {
 
-    protected Etat     etat;
-    protected String   action;
-    protected double   cout;
+    protected Etat etat;
+    protected String action;
+    protected double cout;
 }

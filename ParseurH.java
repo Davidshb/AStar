@@ -139,6 +139,7 @@ public class ParseurH {
 		for (int i = 0; i < nbPatients; i++)
 			but.destinationsPatients[i] = destinations.get(nomCol);
 
+		bin.close();
 	}
 
 }
