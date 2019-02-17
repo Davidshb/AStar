@@ -8,6 +8,7 @@
 
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.Iterator;
 
 
 public class Etat implements Comparable<Etat> 
@@ -43,6 +44,7 @@ public class Etat implements Comparable<Etat>
     
     public Etat(Urgence urgence) {
         this.urgence = urgence;
+        this.parent = null;
     }
 
     /** Fonction retournant les états successeurs à partir de cet état.
@@ -72,8 +74,55 @@ public class Etat implements Comparable<Etat>
         //   -----> ex. pour un déplacement, le cout est 1 + le cout de l'emplacement
         //   --- Modifier la valeur des variables appropriées dans s.etat pour refléter l'effet de l'action (qu'est-ce qui change?) 
         //   --- Ajouter s dans la liste successeurs.
-                
-        
+
+        Iterator<Route> it = emplacementAmbulance.routes.iterator();
+
+        while(it.hasNext()) {
+            Route routeCourante = it.next();
+            if(routeCourante.destination.type == " ")
+                continue;
+
+            Successeur s = new Successeur();
+            s.etat = clone();
+            s.etat.emplacementAmbulance = routeCourante.destination;
+            s.action = routeCourante.getDirection()
+                    + " = Lieu "
+                    + routeCourante.origine.nom
+                    + " -> Lieu "
+                    + routeCourante.destination.nom
+                    + ");";
+            s.cout = 1 + routeCourante.destination.getCout();
+            s.etat.parent = this;
+            successeurs.add(s);
+        }
+
+        //Déchargement du patient à l'hopital. patientRecuperes est mis à true
+        if(emplacementAmbulance.type == "H" && patientCharge) {
+            Successeur s = new Successeur();
+            s.etat = clone();
+            s.etat.patientCharge = false;
+            for(int i=0;i < patientsRecuperes.length;i++)
+                if(emplacementAmbulance.compareTo(emplacementsPatients[i]) == 0 && !patientsRecuperes[i]) {
+                    s.etat.patientsRecuperes[i] = true;
+                    break;
+                }
+            successeurs.add(s);
+        }
+
+        //Chargement d'un patient lorsque l'ambulance se trouve sur lui et que l'ambulance n'est pas chargé et q'il n'est pas récupéré
+        for(int i=0; i < patientsRecuperes.length;i++) {
+            if(patientsRecuperes[i])
+                continue;
+            
+            if(!patientCharge && emplacementAmbulance.compareTo(emplacementsPatients[i]) == 0) {
+                Successeur s = new Successeur();
+                s.etat = clone();
+                s.etat.patientCharge = true;
+                s.cout = urgence.dureeChargement;
+                successeurs.add(s);
+                break;
+            }
+        }
 
         return successeurs;
     }
@@ -119,6 +168,11 @@ public class Etat implements Comparable<Etat>
             }
         }
         return 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return f + parent.hashCode()+actionFromParent;
     }
 
     @Override

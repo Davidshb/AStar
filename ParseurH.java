@@ -113,19 +113,19 @@ public class ParseurH {
 					//on crée les routes existantes (4 directions a tester)
 					if (urgence.emplacements.get(i + "-" + (j - 1)) != null) {
 						Emplacement l2 = urgence.emplacements.get(i + "-" + (j - 1));
-						l1.routes.add(new Route(l1, l2));
+						l1.routes.add(new Route(l1, l2, "Sud"));
 					}
 					if (urgence.emplacements.get((i - 1) + "-" + j) != null) {
 						Emplacement l2 = urgence.emplacements.get((i - 1) + "-" + j);
-						l1.routes.add(new Route(l1, l2));
+						l1.routes.add(new Route(l1, l2, "Ouest"));
 					}
 					if (urgence.emplacements.get(i + "-" + (j + 1)) != null) {
 						Emplacement l2 = urgence.emplacements.get(i + "-" + (j + 1));
-						l1.routes.add(new Route(l1, l2));
+						l1.routes.add(new Route(l1, l2, "Nord"));
 					}
 					if (urgence.emplacements.get((i + 1) + "-" + j) != null) {
 						Emplacement l2 = urgence.emplacements.get((i + 1) + "-" + j);
-						l1.routes.add(new Route(l1, l2));
+						l1.routes.add(new Route(l1, l2, "Est"));
 					}
 				}
 			}

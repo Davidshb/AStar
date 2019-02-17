@@ -32,7 +32,12 @@ public class Emplacement implements Comparable<Emplacement> {
         this.id = nextId++;
     }
 
-
+    public int getCout() {
+        if(type == "-")
+            return 2;
+        else
+            return 1;
+    }
     
 
     

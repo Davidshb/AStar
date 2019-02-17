@@ -61,7 +61,27 @@ public class AStar {
         //  ------   Vérifier si s.etat a un état équivalent dans open.
         //  --------   Si un tel état existe dans open, comparer les valeurs de f et retenir la moindre des deux
         //  ------   Ajoutez s.etat dans open si aucun des cas précédents n'est présent.
-       
+       open.add(etatInitial);
+       while(!open.isEmpty()) {
+           Etat e = open.pollFirst();
+           if(but.butEstStatisfait(e)) {
+               return plan;
+           }
+           closed.add(e);
+           Collection<Successeur> successeurs = e.genererSuccesseurs();
+
+           Iterator<Successeur> it = successeurs.iterator();
+
+           while(it.hasNext()) {
+                Successeur s = it.next();
+                s.etat.g = s.cout;
+                s.etat.h = heuristique.estimerCoutRestant(s.etat,but);
+                s.etat.f = s.etat.g + s.etat.h;
+                if(!closed.contains(s.etat)) {
+                    // TODO
+                }
+           }
+       }
         
         
         return plan;
