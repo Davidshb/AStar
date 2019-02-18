@@ -33,10 +33,7 @@ public class Emplacement implements Comparable<Emplacement> {
     }
 
     public int getCout() {
-        if(type == "-")
-            return 2;
-        else
-            return 1;
+        return type.equals("-") ? 2 : 1;
     }
     
 
