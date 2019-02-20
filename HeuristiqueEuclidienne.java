@@ -1,6 +1,7 @@
 
 /**
  * Heuristique Euclidienne
+ * Cette heuristique est moins efficace.
  */
 
 public class HeuristiqueEuclidienne extends Heuristique {

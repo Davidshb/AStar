@@ -74,10 +74,10 @@ public class TP1 {
 			System.out.println("err");
 		}
 
-		System.out.println("Temps d'exécution: " + totalTime / 1_000_000.0 + "ms");
-		System.out.println("États générés: " + AStar.noeudsGeneres);
-		System.out.println("États explorés: " + AStar.noeudsExplores);
-		System.out.println("Coût final: " + AStar.coutFinal);
+		// System.out.println("Temps d'exécution: " + totalTime / 1_000_000.0 + "ms");
+		// System.out.println("États générés: " + AStar.noeudsGeneres);
+		// System.out.println("États explorés: " + AStar.noeudsExplores);
+		// System.out.println("Coût final: " + AStar.coutFinal);
 	}
 
 }
