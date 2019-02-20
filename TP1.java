@@ -1,3 +1,4 @@
+
 /*
  * INF4230 - Intelligence artificielle
  * UQAM / Département d'informatique
@@ -41,27 +42,21 @@ public class TP1 {
 		parseur.parse(line);
 
 		// Création de l'objet évaluateur d'heuristique
-		Heuristique h = new Heuristique(parseur.urgence);
+		// Heuristique h = new HeuristiqueManhattan(parseur.urgence);
+		Heuristique h = new HeuristiqueManhattan(parseur.urgence);
 		System.out.println(
 				"distance_heuristique(depart,arrivee) = " + h.estimerCoutRestant(parseur.etatInitial, parseur.but));
 
 		/*
-		 * Appel à l'algorithme A* : enregistrement du plan dans la List
-		 * 
-		 * À la fin de l'appel plan doit intégrer une liste de String donnant la suite
-		 * d'instructions pour effectuer tous les deplacements selon le format donné par
-		 * la chaine de caratères (cf. classe Route) "Ouest = Lieu " + route.origine.nom
-		 * + " -> Lieu " + route.destination.nom + ")"
-		 * 
-		 * la strategie à effectuer est : Partir de l'entrée (emplacement actuel de
-		 * l'ambulance) aller au premier patient ramener le premier patient à l'hopital
-		 * aller chercher le second patient le ramener à l'hopital etc...
-		 *
+		 * Appel à l'algorithme A* : enregistrement du plan dans la Liste
 		 */
+		long startTime = System.nanoTime();
 		List<String> plan = AStar.genererPlan(parseur.etatInitial, parseur.but, h);
+		long endTime = System.nanoTime();
+		long totalTime = endTime - startTime;
 
 		// Écriture du plan dans le fichier de sortie + affichage console
-		File f = new File("planH" + line.substring(8, 10) + "_rep.txt");
+		File f = new File("planH" + line.substring(8, 10) + ".txt");
 		try {
 			FileWriter fw = new FileWriter(f);
 			System.out.println("Plan {");
@@ -79,6 +74,10 @@ public class TP1 {
 			System.out.println("err");
 		}
 
+		System.out.println("Temps d'exécution: " + totalTime / 1_000_000.0 + "ms");
+		System.out.println("États générés: " + AStar.noeudsGeneres);
+		System.out.println("États explorés: " + AStar.noeudsExplores);
+		System.out.println("Coût final: " + AStar.coutFinal);
 	}
 
 }

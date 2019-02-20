@@ -8,4 +8,4 @@ clean:
 	rm "*.class"
 
 diff:
-	diff planH$(ID).txt planH$(ID)_res.txt
+	diff planH$(ID).txt Plans/planH$(ID).txt
