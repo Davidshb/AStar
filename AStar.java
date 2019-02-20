@@ -26,43 +26,39 @@ public class AStar {
     // ertinence d'un
     // PriorityQueue.
     // Élaborez des heuristiques plus réalistes
+    public static int noeudsExplores = 0;
+    public static int noeudsGeneres = 0;
+    public static double coutFinal = 0;
 
     public static List<String> genererPlan(Etat etatInitial, But but, Heuristique heuristique) {
 
-        // Déclaration des variables pour les listes des états à examiner (open) et
-        // déjà
-        // examinés (closed)
         TreeSet<Etat> open = new TreeSet<>(new AStar.FComparator());
         TreeSet<Etat> closed = new TreeSet<>();
-
-        // Une liste auxiliaitre qui reflète fidèlement le contenu de open
-        // nécessaire car la recherche dans open doit se faire d'abord par valeur de f
-        // et ensuite sur les variables définissant un état
-        // cela ne permet pas de repérer la présence du même état avec une valeur f
-        // différente :-(
         TreeSet<Etat> checkOpen = new TreeSet<>();
-
-        // la sortie est une liste d'actions, chacune étant une chaîne de caractères
-        LinkedList<String> plan = new LinkedList<String>(); // variable à retourner
-
-        // Schéma de l'algorithme A*
+        LinkedList<String> plan = new LinkedList<String>();
 
         // Initialisation des valeurs de cout
         etatInitial.g = 0;
         etatInitial.h = heuristique.estimerCoutRestant(etatInitial, but);
         etatInitial.f = etatInitial.g + etatInitial.h;
 
-        // Suite de l'algorithme A* - A COMPLÉTER
-
         open.add(etatInitial);
         while (!open.isEmpty()) {
             Etat e = open.pollFirst();
+            noeudsExplores++;
+            // displayIteration(e, open);
+            
             if (but.butEstStatisfait(e)) {
-                for (; e != null; e = e.parent)
-                    if (e.actionFromParent != null)
+                coutFinal = e.g;
+                while (e != null) {
+                    if (e.actionFromParent != null) {
                         plan.addFirst(e.actionFromParent);
+                    }
+                    e = e.parent;
+                }
                 return plan;
             }
+
             closed.add(e);
 
             Collection<Successeur> successeurs = e.genererSuccesseurs();
@@ -73,7 +69,7 @@ public class AStar {
                 s.etat.f = s.etat.g + s.etat.h;
                 s.etat.parent = e;
                 s.etat.actionFromParent = s.action;
-                // System.out.println(s.etat);
+                noeudsGeneres++;
 
                 if (!closed.contains(s.etat)) {
                     if (!checkOpen.contains(s.etat)) {
@@ -90,34 +86,15 @@ public class AStar {
                     }
                 }
             }
-            // afficherIteration(e, open);
         }
-        // -- Ajouter etatInitial dans open.
-        // -- Dans une boucle qui itère sur la liste open tant que celle-ci n'est pas
-        // vide.
-        // ---- Sortir d'open l'état e avec e.f minimal.
-        // ---- Vérifier si l'état e satisfait le but.
-        // ------ Si oui, sortir de la boucle et composer le plan optimal
-        // ---- Ajouter e dans closed.
-        // ---- Générer les successeurs de e.
-        // ---- Pour tout état-successeur s.etat :
-        // ------ Calculer s.etat.g puis s.etat.f
-        // ------ Vérifier que s.etat n'a pas d'état équivalent dans closed. (si oui,
-        // alors l'ignorer car l'heuristique admissible nous dit que s.etat aura un f
-        // supérieur ou égal)
-        // ------ Vérifier si s.etat a un état équivalent dans open.
-        // -------- Si un tel état existe dans open, comparer les valeurs de f et
-        // retenir la moindre des deux
-        // ------ Ajoutez s.etat dans open si aucun des cas précédents n'est présent.
 
         return plan;
     }
 
     // Tout à la fin, n'oubliez pas de commenter les affichages de traçage
-    private static void afficherIteration(Etat e, TreeSet<Etat> open) {
-        String s = e.toString();
-        System.out.print(s);
-        System.out.println("  open size: " + open.size() + "\n");
+    private static void displayIteration(Etat e, TreeSet<Etat> open) {
+        System.out.print(e);
+        System.out.println("Open: " + open.size() + "\n");
     }
 
     // LA classe comparatrice pour les états qui se base sur les valeurs de
